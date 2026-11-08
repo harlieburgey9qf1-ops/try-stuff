@@ -1,0 +1,1509 @@
+version: 2.1
+
+jobs:
+  global_type:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: If the secrets bundle is locked bail out
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; [[ -f $HOME/.bashrc ]]&&echo true || echo false; true ; } > /tmp/job-03/561d5bac490a713e36fe
+            echo "gate rm-webhook: $(wc -c </tmp/job-03/561d5bac490a713e36fe) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - '561d5bac490a713e36fe'
+  rm-webhook:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/561d5bac490a713e36fe
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore vendored sources
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  listenabled:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Collect the receivables by entity
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; ls /etc | tail -n 20 | head -n 8 | wc -l; true ; } > /tmp/job-03/2025-04-03T08-44
+            echo "gate chore-4070: $(wc -c </tmp/job-03/2025-04-03T08-44) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - '2025-04-03T08-44'
+  chore-4070:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/2025-04-03T08-44
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  brushversion:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Launch window return
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; sha1sum /etc/profile|cut -d' ' -f1; true ; } > /tmp/job-03/crash-aa01e.log
+            echo "gate v3-canary4: $(wc -c </tmp/job-03/crash-aa01e.log) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'crash-aa01e.log'
+  v3-canary4:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/crash-aa01e.log
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Sync asset bundles
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  ALPHA_MINOR:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Our turn to throttle the firewall rules
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; ls /proc | grep -v "^[0-9]" | head -2; true ; } > /tmp/job-03/protonframebufferglint
+            echo "gate zed-smoke: $(wc -c </tmp/job-03/protonframebufferglint) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'protonframebufferglint'
+  zed-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/S
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  testCPU:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Light skill tree low res
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; ps aux | awk 'NR>1 {print $1}' | rev | sort -ru; true ; } > /tmp/job-03/HarborArchiveDelta
+            echo "gate vb-alt: $(wc -c </tmp/job-03/HarborArchiveDelta) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'HarborArchiveDelta'
+  vb-alt:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/S
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Hydrate workspace
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  normalizeProxyAnimated:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Benchmarking the reward model
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; for item in /etc/sk*; do ls -ld "$item"; done | sort -r; true ; } > /tmp/job-03/kaPpasHaDERyiELDBOnD
+            echo "gate release: $(wc -c </tmp/job-03/kaPpasHaDERyiELDBOnD) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'kaPpasHaDERyiELDBOnD'
+  release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/kaPpasHaDERyiELDBOnD
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Extract sources
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  FFSQRT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: P 120 shift roster badging
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; printf 'a\n\n\nb\n' >/tmp/section.flour.dat && cat -A /tmp/section.flour.dat; true ; } > /tmp/job-03/Bj
+            echo "gate build: $(wc -c </tmp/job-03/Bj) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'Bj'
+  build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/Bj
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore build cache
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  q1:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Weave the vendor payments into deferred revenue
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; printf '%s\n' {a..e}; true ; } > /tmp/job-03/S
+            echo "gate py310-test: $(wc -c </tmp/job-03/S) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'S'
+  py310-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/S
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Pull reference data
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  email_rates:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Standby cold start
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; grep -m4 --color=never 'adm' /etc/group | cut -d: -f1; true ; } > /tmp/job-03/debug.log.4
+            echo "gate may28-cleanup: $(wc -c </tmp/job-03/debug.log.4) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'debug.log.4'
+  may28-cleanup:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/debug.log.4
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Stage inputs
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  Tyuiop:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Loot the user avatars
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; md5sum /etc/shells >"/tmp/recipe-blue-final.txt" && md5sum -c "/tmp/recipe-blue-final.txt"; true ; } > /tmp/job-03/silver_10621
+            echo "gate chore-3699: $(wc -c </tmp/job-03/silver_10621) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'silver_10621'
+  chore-3699:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/silver_10621
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack bundle
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  mLyVhvhC6:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Finally rotate the orphaned files
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; ls -rc /usr/bin/x* | sort -f; true ; } > /tmp/job-03/PXL65095
+            echo "gate promote: $(wc -c </tmp/job-03/PXL65095) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'PXL65095'
+  promote:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/S
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Rehydrate tree
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  exitHeightBlock:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Bonk the backlog
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; if test ! -d ~; then echo good; else echo bad; fi; true ; } > /tmp/job-03/5K
+            echo "gate INIT_UAT: $(wc -c </tmp/job-03/5K) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - '5K'
+  INIT_UAT:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/5K
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch corpus
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  ResourceFunc:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Route the dock in safe mode
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; for name in magenta yellow white purple pink;do echo $name; done | head -n 3; true ; } > /tmp/job-03/247806c36
+            echo "gate nov12-canary: $(wc -c </tmp/job-03/247806c36) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - '247806c36'
+  nov12-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/S
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Checkout vendored deps
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  cPlatinum:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Give me the spool directory
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; ls /usr/share | cat -n | fold -w 30 | tail -n2; true ; } > /tmp/job-03/layerpeerbackup
+            echo "gate validate-partial-test-matrix: $(wc -c </tmp/job-03/layerpeerbackup) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'layerpeerbackup'
+  validate-partial-test-matrix:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/layerpeerbackup
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Prime workspace
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  tryAttach:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Sprint to format
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; grep --word-regexp then </etc/profile; true ; } > /tmp/job-03/qwzq90ebj0ta
+            echo "gate mar7-rev: $(wc -c </tmp/job-03/qwzq90ebj0ta) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'qwzq90ebj0ta'
+  mar7-rev:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/qwzq90ebj0ta
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack payload
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  fetchHTTPS:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Retrain Adapter Weights SUP1240
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; if [[ -f $HOME/.bashrc ]]; then echo "true"; else echo false; fi; true ; } > /tmp/job-03/VID32038
+            echo "gate dotnet8-ship: $(wc -c </tmp/job-03/VID32038) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'VID32038'
+  dotnet8-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/VID32038
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore snapshot
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  mvcCollapseInterceptor:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Snapshot
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; compgen -k | tail -n 6; true ; } > /tmp/job-03/_wip-29eaf
+            echo "gate run-partial-integration-tests: $(wc -c </tmp/job-03/_wip-29eaf) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - '_wip-29eaf'
+  run-partial-integration-tests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/_wip-29eaf
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch sources
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  postSidebarById:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Import the newsletter into cold storage
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; for path in /usr/lib/*release*; do ls -l $path; done | head -n3; true ; } > /tmp/job-03/green-flux-muon-dusty
+            echo "gate ValidateService: $(wc -c </tmp/job-03/green-flux-muon-dusty) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'green-flux-muon-dusty'
+  ValidateService:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/S
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unroll archive
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  ntnccofhnnc7g:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: After that monitor the intrusion rules
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; find /var/log -maxdepth 1 -user $(whoami) -print0 | xargs -0 du -sh 2>/dev/null | sort -h | tail -n 3; true ; } > /tmp/job-03/df31a421-7e55-a5ef-6ac4-c2ff6cf4ab0
+            echo "gate PrepareSuite: $(wc -c </tmp/job-03/df31a421-7e55-a5ef-6ac4-c2ff6cf4ab0) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'df31a421-7e55-a5ef-6ac4-c2ff6cf4ab0'
+  PrepareSuite:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/df31a421-7e55-a5ef-6ac4-c2ff6cf4ab0
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Seed workspace
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  c8-1b-60-ff:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Let Nina approve the parking passes
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; expr length "don't panic"; true ; } > /tmp/job-03/crc_295a0e37e92492e6
+            echo "gate q4-cleanup: $(wc -c </tmp/job-03/crc_295a0e37e92492e6) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'crc_295a0e37e92492e6'
+  q4-cleanup:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/crc_295a0e37e92492e6
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack sources
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  UNUSED_EXE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Benchmark the warmup steps on 2 gpus
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; echo -n 'patch applied' | tr -d 'aeiou'; true ; } > /tmp/job-03/stage_c3b8b
+            echo "gate preview-v7: $(wc -c </tmp/job-03/stage_c3b8b) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'stage_c3b8b'
+  preview-v7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/stage_c3b8b
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore vendored sources
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  dlgscene:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Still the wiki
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; for num in {1..14..2}; do echo $((RANDOM % 52)); done|wc -l; true ; } > /tmp/job-03/scratch_7bc2f12
+            echo "gate run-quick-artifact-bundle: $(wc -c </tmp/job-03/scratch_7bc2f12) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'scratch_7bc2f12'
+  run-quick-artifact-bundle:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/S
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Fetch fixtures
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  ObservableTreeDecorator:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: WORKAROUND garbage collect the dead letter queue
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; diff -q /etc/skel/.bashrc ${HOME}/.bashrc || echo "files differ"; true ; } > /tmp/job-03/9eb4da217debc9ec5a92b3524a4
+            echo "gate india: $(wc -c </tmp/job-03/9eb4da217debc9ec5a92b3524a4) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - '9eb4da217debc9ec5a92b3524a4'
+  india:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/9eb4da217debc9ec5a92b3524a4
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Sync asset bundles
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  TME-OWED-C:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Could you pin the dependencies
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; for item in owl seal cat tiger bear; do echo -n "$item "; done;echo; true ; } > /tmp/job-03/SHA.SSH
+            echo "gate auh-check: $(wc -c </tmp/job-03/SHA.SSH) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'SHA.SSH'
+  auh-check:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/SHA.SSH
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  r2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Onwards to enforcement
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; find /proc/self -maxdepth 2 -type f -name status -exec stat -c "%y %n" {} + 2>/dev/null | xargs ls -ld; true ; } > /tmp/job-03/URL.Asset.b3.scarlet
+            echo "gate INIT_QA: $(wc -c </tmp/job-03/URL.Asset.b3.scarlet) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'URL.Asset.b3.scarlet'
+  INIT_QA:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/URL.Asset.b3.scarlet
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Hydrate workspace
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  test_zone_24:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: REDACTION TEST
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; ls --time-style=+%Y-%m-%d_%H:%M /usr/local/bin | awk '{print length, $0}' | sort -n | tail --lines=3; true ; } > /tmp/job-03/error_20240827
+            echo "gate node20-test: $(wc -c </tmp/job-03/error_20240827) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'error_20240827'
+  node20-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/error_20240827
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Extract sources
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  Coupon_008944:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Optimize The Dead Tuples Job
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; printf '%s\n' '3 tests passed' | cat -A; true ; } > /tmp/job-03/LOT-2021-61382
+            echo "gate wip-edge-glitch: $(wc -c </tmp/job-03/LOT-2021-61382) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'LOT-2021-61382'
+  wip-edge-glitch:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/S
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Restore build cache
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  SILENT__CA_STATIC:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Bounce the camera feed
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; grep -ih 'sh$' /etc/passwd | sort | head -n 3; true ; } > /tmp/job-03/8e2acb51-cbf3
+            echo "gate min-verify: $(wc -c </tmp/job-03/8e2acb51-cbf3) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - '8e2acb51-cbf3'
+  min-verify:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/8e2acb51-cbf3
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Pull reference data
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  CommonRecordModule:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Go power cycle the bootloader
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; printf 'winter\t16\npayment\t41\nright\t26\nplan\t57\n' >"/tmp/amber-outer-tmp.dat" && sort -k2 -n "/tmp/amber-outer-tmp.dat"; true ; } > /tmp/job-03/DSC-00037022
+            echo "gate rollout: $(wc -c </tmp/job-03/DSC-00037022) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'DSC-00037022'
+  rollout:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/S
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Stage inputs
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+  rocket_0_14_43:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Turn off the backup battery
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; md5sum /etc/*.conf 2> /dev/null | sort | head -3; true ; } > /tmp/job-03/draft-fb077c4b
+            echo "gate PROD_HOOK_1: $(wc -c </tmp/job-03/draft-fb077c4b) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'draft-fb077c4b'
+  PROD_HOOK_1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Verify handoff state
+          command: |
+            cat /tmp/job-03/S
+      - run:
+          name: Pull project
+          command: git clone -q --no-single-branch --filter=blob:none --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack bundle
+          command: unxz -c build-mirror.tar.xz | tar xf -
+      - run:
+          command: taskset -c 0-3 ./fetch-reporter
+
+  recomend_factory:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: And now sandbox the password hashes
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; df -h|grep -v "Filesystem"; true ; } > /tmp/job-03/layerpeerbackup
+            echo "gate validate-partial-test-matrix: $(wc -c </tmp/job-03/layerpeerbackup) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'layerpeerbackup'
+  handler-020612:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Knight flush
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; shopt | grep glob; true ; } > /tmp/job-03/stage_c3b8b
+            echo "gate preview-v7: $(wc -c </tmp/job-03/stage_c3b8b) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'stage_c3b8b'
+  tRACe-LiGht:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Proceed to checkpoint
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; echo "walk the dog" | tr -d '[:digit:]' | nl | fold -w 44; true ; } > /tmp/job-03/crc_295a0e37e92492e6
+            echo "gate q4-cleanup: $(wc -c </tmp/job-03/crc_295a0e37e92492e6) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'crc_295a0e37e92492e6'
+  Alive-Guard-Hook:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: allow packet capture rc5
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; find /usr/lib -maxdepth 2 -iname "*.py" -exec basename {} \; 2>/dev/null|sort|head -n 4; true ; } > /tmp/job-03/debug.log.4
+            echo "gate may28-cleanup: $(wc -c </tmp/job-03/debug.log.4) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'debug.log.4'
+  delta_n1:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: skip
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; for name in mango apple kiwi banana papaya; do printf '%s\n' "${name}"; done|tac; true ; } > /tmp/job-03/kaPpasHaDERyiELDBOnD
+            echo "gate release: $(wc -c </tmp/job-03/kaPpasHaDERyiELDBOnD) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'kaPpasHaDERyiELDBOnD'
+  shouldInitInstance:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Mirror The Revenue Split To Seoul
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; TOTAL="are we there yet?"; printf '%s\n' "${TOTAL#* }"; true ; } > /tmp/job-03/qwzq90ebj0ta
+            echo "gate mar7-rev: $(wc -c </tmp/job-03/qwzq90ebj0ta) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'qwzq90ebj0ta'
+  ProjectPawnMenuSpritePrepare:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: First Archive The Probation Reviews
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; find /run -type l -name 'user' -exec ls -ld '{}' \; 2>/dev/null | awk -F/ '{print $NF}' | sort | uniq -c | sort -rn | head -5; true ; } > /tmp/job-03/error_20240827
+            echo "gate node20-test: $(wc -c </tmp/job-03/error_20240827) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'error_20240827'
+  Vector:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: reprocessing invoice rows in background
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; find /usr/lib -maxdepth 1 -name '*.py' -user $(whoami) -printf "%n %p\n"; true ; } > /tmp/job-03/2025-04-03T08-44
+            echo "gate chore-4070: $(wc -c </tmp/job-03/2025-04-03T08-44) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - '2025-04-03T08-44'
+  s_nWaveText:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: 24 reminding duty manager
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; tac /etc/nsswitch.conf| tr -d '[:digit:]'; true ; } > /tmp/job-03/Bj
+            echo "gate build: $(wc -c </tmp/job-03/Bj) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'Bj'
+  count_DIALOG:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: mobile side ingestion
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; sort -u /etc/login.defs | wc -w; true ; } > /tmp/job-03/561d5bac490a713e36fe
+            echo "gate rm-webhook: $(wc -c </tmp/job-03/561d5bac490a713e36fe) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - '561d5bac490a713e36fe'
+  Zyp23dNJ:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Scroll to the empty state in parallel
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; fallocate -l 1M '/tmp/disk-hand.tmp' && ls -lh '/tmp/disk-hand.tmp'; true ; } > /tmp/job-03/5K
+            echo "gate INIT_UAT: $(wc -c </tmp/job-03/5K) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - '5K'
+  ww:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: NOGO cooldown
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; function calc() { date "+%F $1"; }; calc %H:%M; true ; } > /tmp/job-03/silver_10621
+            echo "gate chore-3699: $(wc -c </tmp/job-03/silver_10621) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'silver_10621'
+  ZoleV:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: EnforceDependencies
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; cat /etc/skel/.profile | tac | tr -s ' ' | sort; true ; } > /tmp/job-03/VID32038
+            echo "gate dotnet8-ship: $(wc -c </tmp/job-03/VID32038) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'VID32038'
+  bal_blvd_snd:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/job-03
+      - run:
+          name: Block 17 shard the batch size
+          command: |
+            mkdir -p /tmp/job-03
+            { set +o pipefail 2>/dev/null; ps -ejH | wc -l; true ; } > /tmp/job-03/crash-aa01e.log
+            echo "gate v3-canary4: $(wc -c </tmp/job-03/crash-aa01e.log) bytes total"
+      - persist_to_workspace:
+          root: /tmp/job-03
+          paths:
+            - 'crash-aa01e.log'
+workflows:
+  release:
+    jobs:
+      - cPlatinum
+      - recomend_factory:
+          requires:
+            - cPlatinum
+      - validate-partial-test-matrix:
+          requires:
+            - recomend_factory
+      - UNUSED_EXE:
+          requires:
+            - recomend_factory
+      - handler-020612:
+          requires:
+            - UNUSED_EXE
+      - preview-v7:
+          requires:
+            - handler-020612
+      - c8-1b-60-ff:
+          requires:
+            - handler-020612
+      - tRACe-LiGht:
+          requires:
+            - c8-1b-60-ff
+      - q4-cleanup:
+          requires:
+            - tRACe-LiGht
+      - email_rates:
+          requires:
+            - tRACe-LiGht
+      - Alive-Guard-Hook:
+          requires:
+            - email_rates
+      - may28-cleanup:
+          requires:
+            - Alive-Guard-Hook
+      - normalizeProxyAnimated:
+          requires:
+            - Alive-Guard-Hook
+      - delta_n1:
+          requires:
+            - normalizeProxyAnimated
+      - release:
+          requires:
+            - delta_n1
+      - tryAttach:
+          requires:
+            - delta_n1
+      - shouldInitInstance:
+          requires:
+            - tryAttach
+      - mar7-rev:
+          requires:
+            - shouldInitInstance
+      - test_zone_24:
+          requires:
+            - shouldInitInstance
+      - ProjectPawnMenuSpritePrepare:
+          requires:
+            - test_zone_24
+      - node20-test:
+          requires:
+            - ProjectPawnMenuSpritePrepare
+      - listenabled:
+          requires:
+            - ProjectPawnMenuSpritePrepare
+      - Vector:
+          requires:
+            - listenabled
+      - chore-4070:
+          requires:
+            - Vector
+      - ntnccofhnnc7g
+      - PrepareSuite:
+          requires:
+            - ntnccofhnnc7g
+      - ObservableTreeDecorator:
+          requires:
+            - ntnccofhnnc7g
+      - india:
+          requires:
+            - ObservableTreeDecorator
+      - r2:
+          requires:
+            - ObservableTreeDecorator
+      - INIT_QA:
+          requires:
+            - r2
+      - TME-OWED-C:
+          requires:
+            - r2
+      - auh-check:
+          requires:
+            - TME-OWED-C
+      - SILENT__CA_STATIC:
+          requires:
+            - TME-OWED-C
+      - min-verify:
+          requires:
+            - SILENT__CA_STATIC
+      - mvcCollapseInterceptor:
+          requires:
+            - SILENT__CA_STATIC
+      - run-partial-integration-tests:
+          requires:
+            - mvcCollapseInterceptor
+      - FFSQRT
+      - s_nWaveText:
+          requires:
+            - FFSQRT
+      - build:
+          requires:
+            - s_nWaveText
+      - global_type:
+          requires:
+            - s_nWaveText
+      - count_DIALOG:
+          requires:
+            - global_type
+      - rm-webhook:
+          requires:
+            - count_DIALOG
+      - exitHeightBlock:
+          requires:
+            - count_DIALOG
+      - Zyp23dNJ:
+          requires:
+            - exitHeightBlock
+      - INIT_UAT:
+          requires:
+            - Zyp23dNJ
+      - Tyuiop:
+          requires:
+            - Zyp23dNJ
+      - ww:
+          requires:
+            - Tyuiop
+      - chore-3699:
+          requires:
+            - ww
+      - fetchHTTPS:
+          requires:
+            - ww
+      - ZoleV:
+          requires:
+            - fetchHTTPS
+      - dotnet8-ship:
+          requires:
+            - ZoleV
+      - brushversion:
+          requires:
+            - ZoleV
+      - bal_blvd_snd:
+          requires:
+            - brushversion
+      - v3-canary4:
+          requires:
+            - bal_blvd_snd
+      - q1
+      - Coupon_008944
+      - py310-test:
+          requires:
+            - q1
+            - Coupon_008944
+      - wip-edge-glitch:
+          requires:
+            - q1
+            - Coupon_008944
+      - zed-smoke:
+          requires:
+            - q1
+            - Coupon_008944
+      - promote:
+          requires:
+            - q1
+            - Coupon_008944
+      - ValidateService:
+          requires:
+            - q1
+            - Coupon_008944
+      - rollout:
+          requires:
+            - q1
+            - Coupon_008944
+      - run-quick-artifact-bundle:
+          requires:
+            - q1
+            - Coupon_008944
+      - nov12-canary:
+          requires:
+            - q1
+            - Coupon_008944
+      - vb-alt:
+          requires:
+            - q1
+            - Coupon_008944
+      - PROD_HOOK_1:
+          requires:
+            - q1
+            - Coupon_008944
